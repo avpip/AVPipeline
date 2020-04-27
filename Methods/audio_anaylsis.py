@@ -6,7 +6,7 @@ import os
 import subprocess
 from scipy.io import wavfile
 
-file_name = "tamil_song_unbadhil.wav"
+file_name = "johnoli_sd.wav"
 prefix = file_name[:-4]
 intervals = 5 #edit this
 os.chdir("../audio_samples")
@@ -19,7 +19,7 @@ if not os.path.exists(os.getcwd() + "/" + prefix):
         intervals) + " -c copy " + prefix + "/" + prefix + "_out%03d.wav"
 
     subprocess.call(cmd, shell=True)
-fs, data = wavfile.read(prefix + "/" + prefix + '_out029.wav')
+fs, data = wavfile.read(prefix + "/" + prefix + '_out024.wav')
 print(len(data))
 frequencies, times, spectrogram = signal.spectrogram(data[:, 1], fs)
 

@@ -35,18 +35,20 @@ if __name__ == "__main__":
     os.chdir("audio_samples")
     print(os.getcwd())
     for x in video_list:
-        youtube_link = x["URL"]
-        new_name = x["Rename"] + ".mp4"
-        print(youtube_link)
-        yt = YouTube(youtube_link, on_complete_callback=on_complete)
-        audio = yt.streams.get_audio_only().download()
-        os.rename(audio, new_name)
-        mp4 = "%s.mp4" % audio
-        wav = "%s.wav" % x["Rename"]
-        print(wav)
-        print(new_name)
+        print(x["completed"])
+        if x["completed"] == "0":
+            youtube_link = x["URL"]
+            new_name = x["Rename"] + ".mp4"
+            print(youtube_link)
+            yt = YouTube(youtube_link, on_complete_callback=on_complete)
+            audio = yt.streams.get_audio_only().download()
+            os.rename(audio, new_name)
+            mp4 = "%s.mp4" % audio
+            wav = "%s.wav" % x["Rename"]
+            print(wav)
+            print(new_name)
 
-        ffmpeg = ('ffmpeg -i %s ' % new_name + wav)
+            ffmpeg = ('ffmpeg -i %s ' % new_name + wav)
 
-        subprocess.call(ffmpeg, shell=True)
-        os.remove(new_name)
+            subprocess.call(ffmpeg, shell=True)
+            os.remove(new_name)

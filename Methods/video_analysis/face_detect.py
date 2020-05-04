@@ -4,7 +4,10 @@ import numpy as np
 import argparse
 import imutils
 import time
+import mtcnn
 import cv2
+import tensorflow as tf
+from tensorflow.python.framework import ops
 
 
 class FaceExtract:
@@ -25,20 +28,21 @@ class FaceExtract:
 
         # start the FPS timer
         fps = FPS().start()
-
+        detector = mtcnn.MTCNN()
         # loop over frames from the video file stream
         while fvs.more():
             # grab the frame from the threaded video file stream, resize
             # it, and convert it to grayscale (while still retaining 3
             # channels)
             frame = fvs.read()
-            try :
+            try:
                 frame = imutils.resize(frame, width=450)
-            except :
+            except:
                 break
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             frame = np.dstack([frame, frame, frame])
-
+            results = detector.detect_faces(frame)
+            print(results)
             # display the size of the queue on the frame
             # cv2.putText(frame, "Queue Size: {}".format(fvs.Q.qsize()),
             #            (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
